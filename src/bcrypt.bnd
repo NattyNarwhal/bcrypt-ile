@@ -1,0 +1,9 @@
+STRPGMEXP PGMLVL(*CURRENT) SIGNATURE('bcrypt')
+EXPORT    SYMBOL('crypt')
+EXPORT    SYMBOL('crypt_newhash')
+EXPORT    SYMBOL('crypt_checkpass')
+EXPORT    SYMBOL('bcrypt')
+EXPORT    SYMBOL('bcrypt_gensalt')
+EXPORT    SYMBOL('bcrypt_newhash')
+EXPORT    SYMBOL('bcrypt_checkpass')
+ENDPGMEXP
