@@ -8,8 +8,8 @@
 #define DEF_WEAK(x)
 
 /* XXX: VERY BAD NO GOOD! ACTUALLY IMPLEMENT A REAL IMPLEMENTATION! */
-#define explicit_bzero(buf, len) memset(buf, 0, len)
-#define timingsafe_bcmp memcmp
+void explicit_bzero(void *buf, size_t len);
+int timingsafe_bcmp(const void *b1, const void *b2, size_t n);
 
 void arc4random_buf(void*, size_t);
 
