@@ -1,13 +1,18 @@
 // This file can be built on the ILE and OpenBSD.
-#include <stdio.h>
 #ifdef __OS400__
 // WTF?
 #define __cplusplus__strings__ 1
+#include <sys/types.h>
+#include <stdint.h>
 #include "../include/bcrypt-ile.h"
 #else
 #include <unistd.h>
 #include <pwd.h>
 #endif
+#include <stdio.h>
+#include <string.h>
+#include <strings.h>
+#include <errno.h>
 
 static const char a2e_table[] = { /* Actually, UTF-8 truncated to char */
 	/* _0    _1    _2    _3    _4    _5    _6    _7    _8    _9    _A    _B    _C    _D    _E    _F */
@@ -54,7 +59,8 @@ static const char e2a_table[] = {
 static void
 simple_translate (const char *src, char *dst, const char *table, size_t length)
 {
-	for (size_t i = 0; i < length; i++) {
+	size_t i;
+	for (i = 0; i < length; i++) {
 #ifdef __OS400__
 		dst[i] = table[(unsigned char)src[i]];
 #else
@@ -62,8 +68,6 @@ simple_translate (const char *src, char *dst, const char *table, size_t length)
 #endif
 	}
 }
-#include <string.h>
-#include <errno.h>
 
 // Do NOT build with LOCALEUTF, we do manual conversions so EBCDIC argv works
 

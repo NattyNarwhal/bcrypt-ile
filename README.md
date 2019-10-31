@@ -12,4 +12,12 @@ Note that these APIs *must* take a UTF-8 null-terminated string.
 
 Edit Makefile to select the library you want to put files in, then run `make` from PASE to build it.
 
-Tested on IBM i 7.2.
+Tested on IBM i 7.2, targets as back as 6.1.
+
+## Improvements to suggest
+
+* Build system (this is hairy, uses PASE make, might not pass desires flags to ILE compilers and such)
+* Security (security properties of ILE?)
+* Ease of use (with RPG and the ilk)
+
+PRs welcome.
