@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <stdio.h>
+#include <qc3prng.h>
+
 /* XXX: Has wrong semantics */
 int clock_gettime(int clk_id, struct timespec *tp)
 {
@@ -11,13 +14,27 @@ int clock_gettime(int clk_id, struct timespec *tp)
         return 0;
 }
 
-/* XXX: FUCKED */
+typedef struct {
+	int bytes_in;
+	int bytes_avail;
+	char exception_id[7];
+	char reserved;
+} ERRC0100;
+
 void arc4random_buf(void *buf, size_t nbytes)
 {
-        /* Seriously, this is so wrong, but QC3GENRN is fucked */
-        srand(time(NULL));
-        for (size_t i = 0; i < nbytes; i++)
-                ((uint8_t*)buf)[i] = (uint8_t)rand();
+	ERRC0100 error;
+	error.bytes_in = sizeof(error);
+	/*
+	 * Yes, these are EBCDIC zoned ints. Because this file is built with
+	 * UTF locale, use EBCDIC in hex.
+	 */
+	Qc3GenPRNs(buf, nbytes, 0xf0, 0xf0, &error);
+	if (error.exception_id[0] != '\0') {
+		/* XXX: We're in UTF-8 ILE world, but XPF still returns EBCDIC */
+		fprintf(stderr, " ** arc4random_buf should never fail");
+		abort();
+	}
 }
 
 /*	$OpenBSD: explicit_bzero.c,v 1.4 2015/08/31 02:53:57 guenther Exp $ */
