@@ -1,6 +1,6 @@
 # bcrypt for ILE
 
-Port of the OpenBSD C implementation, by request.
+Port of the OpenBSD C implementation, by request. Not throughly tested, but seems to work; ILE bcrypt generates hashes that verify on OpenBSD et vice versa. Please let me know if you run into or forsee issues.
 
 ## Usage
 
