@@ -19,6 +19,7 @@ typedef struct {
 	int bytes_avail;
 	char exception_id[7];
 	char reserved;
+	char data[20];
 } ERRC0100;
 
 void arc4random_buf(void *buf, size_t nbytes)
@@ -30,7 +31,7 @@ void arc4random_buf(void *buf, size_t nbytes)
 	 * UTF locale, use EBCDIC in hex.
 	 */
 	Qc3GenPRNs(buf, nbytes, 0xf0, 0xf0, &error);
-	if (error.exception_id[0] != '\0') {
+	if (error.bytes_avail != 0) {
 		/* XXX: We're in UTF-8 ILE world, but XPF still returns EBCDIC */
 		fprintf(stderr, " ** arc4random_buf should never fail");
 		abort();
